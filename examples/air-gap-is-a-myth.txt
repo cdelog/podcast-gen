@@ -1,0 +1,69 @@
+---
+title: The Air Gap Is a Myth
+speakers:
+  MAYA: serena, curious and quick to react
+  THEO: aiden, calm explainer with a dry sense of humor
+  OWEN: ryan, seasoned incident responder, blunt and a little weary
+---
+# Owen is a fictional guest. The incidents are real.
+MAYA: Welcome back. Today we're talking about security in factories, power plants, water systems. The stuff the industry calls OT, operational technology.
+THEO: And we've got a guest, which is a first for us. Owen spends his days doing security assessments inside industrial plants. Owen, welcome.
+OWEN: Thanks for having me. And, sorry in advance for ruining everyone's sense of safety.
+MAYA: [laughs] Great start.
+THEO: Okay, let's start with the sentence we've all heard. "It's fine, the control network is air-gapped."
+OWEN: (dry) My favorite sentence.
+MAYA: Wait, is it not true?
+OWEN: It's true on the network drawing. [pause 0.4] It's almost never true in the building.
+THEO: (over) Hmm.
+OWEN: Because think about what actually crosses that gap. The vendor technician who plugs in a laptop to update a drive. The USB stick with the new recipe files. The remote access box somebody installed during COVID so they could support the line from home--
+MAYA: --and then just forgot about it.
+OWEN: And then never touched it again. I find one of those at a lot of the sites I visit.
+MAYA: Okay, that's terrifying. But let's back up for people who don't live in this world. How is a plant network normally organized?
+OWEN: So the classic picture is the Purdue model. It came out of Purdue University in the nineties as a reference architecture for manufacturing, and security people adopted it as a way to draw the layers.
+THEO: The layers being...
+OWEN: Level zero is the physical process. Valves, motors, sensors. Level one is the controllers, the PLCs. Level two is supervisory, so the operator screens and SCADA. Level three is site operations, like the historian that records every value. And levels four and five are the business side. E-mail, ERP, the internet.
+MAYA: So the further down you go, the more protected it should be.
+OWEN: Exactly. And there's usually a demilitarized zone between three and four, so nothing talks straight from the office network down into the plant.
+THEO: So in theory, an attacker has to get through every one of those layers.
+OWEN: In theory. And then there's Stuxnet.
+MAYA: (over) Right.
+THEO: Okay, I feel like everyone's heard the name, but most people don't know what it actually did.
+OWEN: So it was discovered in twenty ten. It targeted Siemens PLCs controlling centrifuges at Iran's enrichment facility at Natanz. And the chilling part is how it worked.
+MAYA: Go on.
+OWEN: (slow) It changed the speed of the centrifuge motors, to wear them out and break them over time. And while it was doing that, it fed the operators recordings of normal readings.
+THEO: Oh, wow.
+OWEN: So the people watching the screens saw a perfectly healthy plant. While the plant was, physically, tearing itself apart.
+MAYA: (soft) That's genuinely unsettling.
+THEO: And that facility was air-gapped, right?
+OWEN: That's the point. It's believed to have gotten in on USB drives. It didn't need the internet. It needed people.
+MAYA: Okay, but Stuxnet was a nation-state weapon. Is that really the threat to a normal factory?
+OWEN: That's a fair push. And honestly, most incidents I see are far less clever. Ransomware hits the office side, and the plant shuts down anyway, because nobody's sure what's safe to run.
+THEO: (over) Huh.
+OWEN: But there's another case that worries the industry even more than Stuxnet. Triton.
+MAYA: I don't know that one.
+OWEN: Twenty seventeen, a petrochemical plant in Saudi Arabia. The attackers went after the safety instrumented system. That's the separate controller whose only job is to shut the process down safely when something goes wrong.
+THEO: Wait. So they went after the thing that's there to stop the explosion.
+OWEN: (emphatic) The last line of defense. Yes.
+MAYA: How did anyone even find out?
+OWEN: This is the wild part. Their code had a bug. It tripped the safety controllers, the plant shut down safely, and the investigation afterwards found the malware.
+MAYA: [laughs] So the safety system did its job, against the people attacking the safety system.
+OWEN: (dry) It worked exactly as designed. Just not as the attackers designed.
+THEO: Okay, let's get practical. Someone listening runs a plant. Where do they start?
+OWEN: Honestly? An inventory. You can't protect what you don't know you have. Every controller, every switch, every remote access box. Most sites are surprised by that list.
+MAYA: (over) Mm-hmm.
+OWEN: Then segmentation. There's a standards series for this, IEC sixty-two four four three. The core idea is zones and conduits. You group assets with similar security needs into a zone, and the only way between zones is a conduit you've defined and can monitor.
+THEO: So instead of one big flat network--
+OWEN: --you build rooms with doors. And you know who has the keys.
+MAYA: And remote access?
+OWEN: One way in. Through a jump host in that demilitarized zone, with multi-factor authentication, and sessions someone can watch and end. Not a modem somebody's nephew installed.
+MAYA: [laughs] Is that a real story?
+OWEN: (dry) I'm not allowed to say.
+THEO: What about patching? Because in IT, the answer is always "just patch it."
+OWEN: In OT, you might get one maintenance window a year. You can't just reboot a controller that's running a furnace. So you compensate. You restrict who can talk to it, you watch the traffic, and you keep offline backups of every controller program, so if the worst happens, you can rebuild.
+MAYA: (thoughtful) So it's less about building a perfect wall, and more about knowing exactly what's behind every door.
+OWEN: That's it. And assuming somebody will get in eventually, making sure they can't get very far.
+THEO: Owen, this has been great. Slightly terrifying--
+MAYA: --very terrifying.
+THEO: [laughs] Very terrifying. But great.
+OWEN: Thanks, both of you. And, go check for that remote access box.
+MAYA: [laughs] Homework. Okay, thanks for listening, everyone.

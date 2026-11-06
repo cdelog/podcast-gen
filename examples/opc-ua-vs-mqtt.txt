@@ -1,0 +1,59 @@
+---
+title: OPC UA vs MQTT, Settled (Sort Of)
+speakers:
+  MAYA: serena, even-handed moderator who enjoys the fight
+  LENA: vivian, precise OPC UA advocate, crisp and confident
+  MARCUS: ryan, MQTT enthusiast, energetic and a bit cheeky
+---
+# Lena and Marcus are fictional guests. The protocols are real.
+MAYA: Today's episode is a little different. If you've spent any time around industrial data, you've seen this argument online. OPC UA versus MQTT. So I've invited two people who are, let's say, on different sides.
+LENA: (dry) "Different sides" is generous.
+MARCUS: [laughs] We get along fine. She's just wrong.
+MAYA: Okay! Ground rules. Lena, you're the OPC UA person. Marcus, you're the MQTT person. Give me the thirty-second version. Lena first.
+LENA: Right. OPC UA is a standard from the OPC Foundation, first released in two thousand eight. It replaced the old Windows-only OPC, the one built on Microsoft's DCOM, which everyone hated configuring.
+MARCUS: (over) Everyone.
+LENA: And the key thing is, it's not just a way to move data. It's a way to describe it. A machine exposes an address space, with objects, types, units, ranges, relationships. A client can browse a machine it has never seen and understand what's inside.
+MAYA: So it's self-describing.
+LENA: Exactly. And security is built in. Certificates, signing, encryption. From the start.
+MAYA: Marcus. Thirty seconds.
+MARCUS: Sure. MQTT was invented in nineteen ninety-nine, for monitoring oil pipelines over satellite links, where bandwidth was expensive and connections kept dropping. So it's tiny, and it's publish, subscribe.
+MAYA: Meaning...
+MARCUS: Meaning nobody polls anybody. A device publishes a value to a broker, on a topic, like a channel. Anyone who cares subscribes. The device doesn't know or care who's listening. And you typically report by exception. If the temperature doesn't change, you don't send it.
+LENA: (over) Mm-hmm.
+MARCUS: So a thousand devices can talk to a thousand consumers without a million connections.
+MAYA: Lena, I can see you wanting to jump in.
+LENA: Just one thing. MQTT moves bytes. It has no idea what's in them. A message on a topic called "temp" could be Celsius, Fahrenheit, a string, a JSON blob, a picture of a cat--
+MARCUS: --which is why Sparkplug exists.
+LENA: (dry) I knew you'd say Sparkplug.
+MARCUS: [laughs] Of course I'm going to say Sparkplug! It's the answer. So, Sparkplug is a spec, now run by the Eclipse Foundation, that sits on top of MQTT. It fixes the topic structure, it defines a compact binary payload, and most importantly, it adds state.
+MAYA: State meaning what?
+MARCUS: When a device comes online, it publishes a birth certificate. Every metric it has, with data types. And if it drops off, the broker publishes its death certificate automatically, using an MQTT feature called the last will and testament.
+MAYA: That is a very dramatic name for a network feature.
+MARCUS: [laughs] Somebody had fun that day. But it matters. Your SCADA system knows instantly that a value is stale, instead of showing you a nice, confident, completely wrong number.
+MAYA: (thoughtful) Okay, that's a real answer to Lena's point. Lena?
+LENA: It's a partial answer. Sparkplug tells you a metric is a float called "temperature". OPC UA can tell you it's the bearing temperature of motor three, in degrees Celsius, with an alarm limit, and that motor three belongs to pump skid two, which follows an industry companion specification the vendors agreed on.
+MARCUS: (over) Sure.
+LENA: That's not decoration. That's the difference between data and information.
+MAYA: Okay, let me bring in the phrase that's everywhere right now. The unified namespace.
+MARCUS: Ah. Home turf.
+MAYA: Marcus, define it. But fairly.
+MARCUS: Fairly. [pause 0.3] The unified namespace is an architecture idea, popularized by Walker Reynolds. Instead of wiring every system to every other system, ERP to MES, MES to SCADA, SCADA to the historian, everything publishes its current state into one shared hub. Organized like the business. Enterprise, site, area, line, cell.
+LENA: Usually an MQTT broker.
+MARCUS: Usually an MQTT broker. Because a hub needs publish, subscribe, and that's what we do.
+MAYA: Lena, do you buy it?
+LENA: (thoughtful) Honestly? The idea, yes. Point-to-point integration is a disaster, and everyone who's maintained it knows it. My objection is when people say "just put MQTT on everything" and throw away the models.
+MAYA: And here's where I get to be annoying. Isn't this whole argument a bit outdated? Because OPC UA has a publish, subscribe mode now, and it can run over MQTT.
+MARCUS: (over) Yeah.
+LENA: It can. Part fourteen of the spec. OPC UA PubSub, including over MQTT.
+MARCUS: Which, to be fair to Lena, is a very polite standards-body way of saying "fine, you were right about the broker."
+LENA: [laughs] Or a very sensible way of saying "use the right transport, and keep the meaning."
+MAYA: Okay. Somebody's designing a plant data architecture tomorrow. One sentence each. Marcus.
+MARCUS: Put a broker in the middle, use Sparkplug so you get state, and stop polling things.
+MAYA: Lena.
+LENA: Use OPC UA where the machines are, because that's where the meaning lives, and publish it upward however you like.
+MAYA: [pause 0.4] You both realize those two sentences are completely compatible.
+MARCUS: --Don't tell anyone.
+LENA: (dry) We have reputations.
+MAYA: [laughs] OPC UA at the machine, MQTT carrying it upward, and everybody agreeing on what the numbers mean. That's our episode. Thanks to you both.
+MARCUS: Cheers.
+LENA: Thanks, Maya.
